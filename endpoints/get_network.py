@@ -7,7 +7,7 @@ from server import app, kaspad_client
 
 
 class NetworkResponse(BaseModel):
-    networkName: str = "gor-mainnet"
+    networkName: str = "bitmeme-mainnet"
     blockCount: str = "261357"
     headerCount: str = "23138783"
     tipHashes: List[str] = [
@@ -24,7 +24,7 @@ class NetworkResponse(BaseModel):
     virtualDaaScore: str = "19989984"
 
 
-@app.get("/info/network", response_model=NetworkResponse, tags=["Gor network info"])
+@app.get("/info/network", response_model=NetworkResponse, tags=["BTM network info"])
 async def get_network():
     """
     Get some global get network information

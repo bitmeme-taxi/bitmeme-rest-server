@@ -78,7 +78,7 @@ class PreviousOutpointLookupMode(str, Enum):
 
 @app.get("/transactions/{transactionId}",
          response_model=TxModel,
-         tags=["Gor transactions"],
+         tags=["BTM transactions"],
          response_model_exclude_unset=True)
 @sql_db_only
 async def get_transaction(response: Response,
@@ -162,7 +162,7 @@ async def get_transaction(response: Response,
 
 @app.post("/transactions/search",
           response_model=List[TxModel],
-          tags=["Gor transactions"],
+          tags=["BTM transactions"],
           response_model_exclude_unset=True)
 @sql_db_only
 async def search_for_transactions(txSearch: TxSearch,

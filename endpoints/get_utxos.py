@@ -31,10 +31,10 @@ class UtxoResponse(BaseModel):
 
 @app.get("/addresses/{gorAddress}/utxos", response_model=List[UtxoResponse], tags=["BTM addresses"])
 async def get_utxos_for_address(gorAddress: str = Path(
-    description="BTM address as string e.g. gor:qqkqkzjvr7zwxxmjxjkmxxdwju9kjs6e9u82uh59z07vgaks6gg62v8707g73",
+    description="BTM address as string e.g. btm:qp3gdpw70htp934mmp4fm54sewd23hqjxxshvjpqykw96hlk3nxt5qvgjfpm7",
     regex="^btm\:[a-z0-9]{61,63}$")):
     """
-    Lists all open utxo for a given gor address
+    Lists all open utxo for a given btm address
     """
     resp = await kaspad_client.request("getUtxosByAddressesRequest",
                                        params={

@@ -50,7 +50,7 @@ class SubmitTransactionResponse(BaseModel):
 
 
 @app.post("/transactions",
-          tags=["Gor transactions"],
+          tags=["BTM transactions"],
           response_model_exclude_unset=True,
           responses={200: {"model": SubmitTransactionResponse},
                        400: {"model": SubmitTransactionResponse}})

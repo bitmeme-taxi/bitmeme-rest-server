@@ -61,7 +61,7 @@ class BlockResponse(BaseModel):
     blocks: List[BlockModel] | None
 
 
-@app.get("/blocks/{blockId}", response_model=BlockModel, tags=["Gor blocks"])
+@app.get("/blocks/{blockId}", response_model=BlockModel, tags=["BTM blocks"])
 async def get_block(response: Response,
                     blockId: str = Path(regex="[a-f0-9]{64}")):
     """
@@ -107,7 +107,7 @@ async def get_block(response: Response,
     return requested_block
 
 
-@app.get("/blocks", response_model=BlockResponse, tags=["Gor blocks"])
+@app.get("/blocks", response_model=BlockResponse, tags=["BTM blocks"])
 async def get_blocks(response: Response,
                      lowHash: str = Query(regex="[a-f0-9]{64}"),
                      includeBlocks: bool = False,
@@ -131,7 +131,7 @@ async def get_blocks(response: Response,
     return resp["getBlocksResponse"]
 
 
-@app.get("/blocks-from-bluescore", response_model=List[BlockModel], tags=["Gor blocks"])
+@app.get("/blocks-from-bluescore", response_model=List[BlockModel], tags=["BTM blocks"])
 async def get_blocks_from_bluescore(response: Response,
                                     blueScore: int = 43679173,
                                     includeTransactions: bool = False):

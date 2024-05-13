@@ -30,10 +30,10 @@ class MaxHashrateResponse(BaseModel):
     blockheader: BlockHeader
 
 
-@app.get("/info/hashrate", response_model=HashrateResponse | str, tags=["Gor network info"])
+@app.get("/info/hashrate", response_model=HashrateResponse | str, tags=["BTM network info"])
 async def get_hashrate(stringOnly: bool = False):
     """
-    Returns the current hashrate for Gor network in TH/s.
+    Returns the current hashrate for btm network in TH/s.
     """
 
     resp = await kaspad_client.request("getBlockDagInfoRequest")
@@ -49,11 +49,11 @@ async def get_hashrate(stringOnly: bool = False):
         return f"{hashrate_in_th:.01f}"
 
 
-@app.get("/info/hashrate/max", response_model=MaxHashrateResponse, tags=["Gor network info"])
+@app.get("/info/hashrate/max", response_model=MaxHashrateResponse, tags=["BTM network info"])
 @sql_db_only
 async def get_max_hashrate():
     """
-    Returns the current hashrate for Gor network in TH/s.
+    Returns the current hashrate for btm network in TH/s.
     """
     maxhash_last_value = json.loads((await KeyValueStore.get("maxhash_last_value")) or "{}")
     maxhash_last_bluescore = int((await KeyValueStore.get("maxhash_last_bluescore")) or 0)

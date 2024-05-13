@@ -10,7 +10,7 @@ class BlockRewardResponse(BaseModel):
     blockreward: float = 12000132
 
 
-@app.get("/info/blockreward", response_model=BlockRewardResponse | str, tags=["Gor network info"])
+@app.get("/info/blockreward", response_model=BlockRewardResponse | str, tags=["BTM network info"])
 async def get_blockreward(stringOnly: bool = False):
     """
     Returns the current blockreward in KAS/block

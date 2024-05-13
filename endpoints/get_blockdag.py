@@ -21,7 +21,7 @@ class BlockdagResponse(BaseModel):
 @app.get("/info/blockdag", response_model=BlockdagResponse, tags=["BTM network info"])
 async def get_blockdag():
     """
-    Get some global Gor BlockDAG information
+    Get some global BTM BlockDAG information
     """
     resp = await kaspad_client.request("getBlockDagInfoRequest")
     return resp["getBlockDagInfoResponse"]

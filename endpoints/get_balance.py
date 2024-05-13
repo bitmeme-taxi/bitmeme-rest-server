@@ -11,13 +11,13 @@ class BalanceResponse(BaseModel):
     balance: int = 38240000000
 
 
-@app.get("/addresses/{gorAddress}/balance", response_model=BalanceResponse, tags=["Gor addresses"])
+@app.get("/addresses/{gorAddress}/balance", response_model=BalanceResponse, tags=["BTM addresses"])
 async def get_balance_from_kaspa_address(
         gorAddress: str = Path(
-            description="Gor address as string e.g. btm:qp3gdpw70htp934mmp4fm54sewd23hqjxxshvjpqykw96hlk3nxt5qvgjfpm7",
+            description="BTM address as string e.g. btm:qp3gdpw70htp934mmp4fm54sewd23hqjxxshvjpqykw96hlk3nxt5qvgjfpm7",
             regex="^btm\:[a-z0-9]{61,63}$")):
     """
-    Get balance for a given gor address
+    Get balance for a given btm address
     """
     resp = await kaspad_client.request("getBalanceByAddressRequest",
                                        params={

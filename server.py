@@ -17,7 +17,7 @@ from kaspad.KaspadMultiClient import KaspadMultiClient
 fastapi.logger.logger.setLevel(logging.WARNING)
 
 app = FastAPI(
-    title="Gor REST-API server",
+    title="BTM REST-API server",
     description="This server is to communicate with kaspa network via REST-API",
     version=os.getenv("VERSION", "tbd"),
     contact={
