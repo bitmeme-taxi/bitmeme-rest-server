@@ -1,2 +1,1 @@
-# bitmeme-rest-server
-rest server
+# gor-rest-server
