@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  kaspa_explorer:
+    container_name: kaspa_explorer
+    image: supertypo/kaspa-explorer:latest
+    restart: unless-stopped
+    environment:
+      API_URI: "http://localhost:8000"
+      API_WS_URI: "ws://localhost:8000"
+    ports:
+      - "8080:8080/tcp"
+
+  kaspa_db_filler:
+    container_name: kaspa_db_filler
+    image: supertypo/kaspa-db-filler:latest
+    restart: unless-stopped
+    environment:
+      DEBUG: "true"
+      KASPAD_HOST_1: maxgor.info:46110
+      SQL_URI: postgresql://postgres:postgres@postgresql:5432/postgres
+    links:
+      - postgresql
+
+  postgresql:
+    container_name: postgresql
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432/tcp"
+    volumes:
+      - postgresql:/var/lib/postgresql/data/
+
+volumes:
+  postgresql:
