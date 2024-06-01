@@ -11,9 +11,9 @@ class BalanceResponse(BaseModel):
     balance: int = 38240000000
 
 
-@app.get("/addresses/{gorAddress}/balance", response_model=BalanceResponse, tags=["BTM addresses"])
+@app.get("/addresses/{btmAddress}/balance", response_model=BalanceResponse, tags=["BTM addresses"])
 async def get_balance_from_kaspa_address(
-        gorAddress: str = Path(
+        btmAddress: str = Path(
             description="BTM address as string e.g. btm:qp3gdpw70htp934mmp4fm54sewd23hqjxxshvjpqykw96hlk3nxt5qvgjfpm7",
             regex="^btm\:[a-z0-9]{61,63}$")):
     """
@@ -21,7 +21,7 @@ async def get_balance_from_kaspa_address(
     """
     resp = await kaspad_client.request("getBalanceByAddressRequest",
                                        params={
-                                           "address": gorAddress
+                                           "address": btmAddress
                                        })
 
     try:
@@ -40,6 +40,6 @@ async def get_balance_from_kaspa_address(
         balance = 0
 
     return {
-        "address": gorAddress,
+        "address": btmAddress,
         "balance": balance
     }

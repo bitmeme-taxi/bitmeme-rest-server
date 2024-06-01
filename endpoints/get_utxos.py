@@ -29,8 +29,8 @@ class UtxoResponse(BaseModel):
     utxoEntry: UtxoModel
 
 
-@app.get("/addresses/{gorAddress}/utxos", response_model=List[UtxoResponse], tags=["BTM addresses"])
-async def get_utxos_for_address(gorAddress: str = Path(
+@app.get("/addresses/{btmAddress}/utxos", response_model=List[UtxoResponse], tags=["BTM addresses"])
+async def get_utxos_for_address(btmAddress: str = Path(
     description="BTM address as string e.g. btm:qp3gdpw70htp934mmp4fm54sewd23hqjxxshvjpqykw96hlk3nxt5qvgjfpm7",
     regex="^btm\:[a-z0-9]{61,63}$")):
     """
@@ -38,10 +38,10 @@ async def get_utxos_for_address(gorAddress: str = Path(
     """
     resp = await kaspad_client.request("getUtxosByAddressesRequest",
                                        params={
-                                           "addresses": [gorAddress]
+                                           "addresses": [btmAddress]
                                        }, timeout=120)
     try:
-        return (utxo for utxo in resp["getUtxosByAddressesResponse"]["entries"] if utxo["address"] == gorAddress)
+        return (utxo for utxo in resp["getUtxosByAddressesResponse"]["entries"] if utxo["address"] == btmAddress)
     except KeyError:
         if "getUtxosByAddressesResponse" in resp and "error" in resp["getUtxosByAddressesResponse"]:
             raise HTTPException(status_code=400, detail=resp["getUtxosByAddressesResponse"]["error"])

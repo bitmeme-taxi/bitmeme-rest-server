@@ -13,7 +13,7 @@ class MarketCapResponse(BaseModel):
 @app.get("/info/marketcap", response_model=MarketCapResponse | str, tags=["BTM network info"])
 async def get_marketcap(stringOnly: bool = False):
     """
-    Get $KAS price and market cap. Price info is from coingecko.com
+    Get $BTM price and market cap. Price info is from coingecko.com
     """
     kas_price = await get_kas_price()
     resp = await kaspad_client.request("getCoinSupplyRequest")

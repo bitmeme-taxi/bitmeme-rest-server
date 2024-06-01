@@ -1,55 +1,34 @@
 version: "3"
 
 services:
-
   gor_rest_server:
     container_name: gor_rest_server
     image: supertypo/gor-rest-server:latest
     restart: unless-stopped
     environment:
-      KASPAD_HOST_1: 192.168.1.125:26110
+      KASPAD_HOST_1: 91.219.62.186:36110
       VERSION: 2.1.0
-      SQL_URI: postgresql+asyncpg://postgres:postgres@kaspa_db:5432/postgres
+      SQL_URI: postgresql+asyncpg://explorer:1@172.17.0.1:5433/explorer
     ports:
       - "8000:8000/tcp"
-    links:
-      - kaspa_db
 
   kaspa_socket_server:
     container_name: kaspa_socket_server
     image: lamer1/kaspa-socket-server:latest
     restart: unless-stopped
     environment:
-      KASPAD_HOST_1: 192.168.1.125:26110
-      SQL_URI: postgresql+asyncpg://postgres:postgres@kaspa_db:5432/postgres
+      KASPAD_HOST_1: 91.219.62.186:36110
+      SQL_URI: postgresql+asyncpg://explorer:1@172.17.0.1:5433/explorer
     ports:
       - "8001:8000/tcp"
-    links:
-      - kaspa_db
 
   kaspa_db_filler:
     container_name: kaspa_db_filler
     image: supertypo/kaspa-db-filler:latest
     restart: unless-stopped
     environment:
-      DEBUG: "true"
-      KASPAD_HOST_1: 192.168.1.125:26110
-      SQL_URI: postgresql://postgres:postgres@kaspa_db:5432/postgres
-    links:
-      - kaspa_db
+      KASPAD_HOST_1: 91.219.62.186:36110
+      SQL_URI: postgresql://explorer:1@172.17.0.1:5433/explorer
 
-  kaspa_db:
-    container_name: kaspa_db
-    image: postgres:14-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    ports:
-      - "5432:5432/tcp"
-    volumes:
-      - kaspa_db:/var/lib/postgresql/data/
 
-volumes:
-  kaspa_db:
+

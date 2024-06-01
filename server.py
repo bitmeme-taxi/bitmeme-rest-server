@@ -18,7 +18,7 @@ fastapi.logger.logger.setLevel(logging.WARNING)
 
 app = FastAPI(
     title="BTM REST-API server",
-    description="This server is to communicate with kaspa network via REST-API",
+    description="This server is to communicate with bitmeme network via REST-API",
     version=os.getenv("VERSION", "tbd"),
     contact={
         "name": "lAmeR1"
@@ -65,7 +65,7 @@ async def ping_server():
             "is_synced": info["getInfoResponse"]["isSynced"]
         }
     except Exception as exc:
-        raise HTTPException(status_code=500, detail="Kaspad not connected.")
+        raise HTTPException(status_code=500, detail="bitmemed not connected.")
 
 
 kaspad_hosts = []

@@ -14,7 +14,7 @@ class PriceResponse(BaseModel):
 @app.get("/info/price", response_model=PriceResponse | str, tags=["BTM network info"])
 async def get_price(stringOnly: bool = False):
     """
-    Returns the current price for btm in USD.
+    Returns the current price for Btm in USD.
     """
     if stringOnly:
         return PlainTextResponse(content=str(await get_kas_price()))

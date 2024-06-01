@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+
+  gor_rest_server:
+    container_name: gor_rest_server
+    image: supertypo/gor-rest-server:latest
+    restart: unless-stopped
+    environment:
+      KASPAD_HOST_1: bitmeme.world:26110
+      VERSION: 2.1.0
+      SQL_URI: postgresql+asyncpg://postgres:postgres@kaspa_db:5432/postgres
+    ports:
+      - "8000:8000/tcp"
+    links:
+      - kaspa_db
+
+  kaspa_socket_server:
+    container_name: kaspa_socket_server
+    image: lamer1/kaspa-socket-server:latest
+    restart: unless-stopped
+    environment:
+      KASPAD_HOST_1: bitmeme.world:26110
+      SQL_URI: postgresql+asyncpg://postgres:postgres@kaspa_db:5432/postgres
+    ports:
+      - "8001:8000/tcp"
+    links:
+      - kaspa_db
+
+  kaspa_db_filler:
+    container_name: kaspa_db_filler
+    image: supertypo/kaspa-db-filler:latest
+    restart: unless-stopped
+    environment:
+      DEBUG: "true"
+      KASPAD_HOST_1: bitmeme.world:26110
+      SQL_URI: postgresql://postgres:postgres@kaspa_db:5432/postgres
+    links:
+      - kaspa_db
+
+  kaspa_db:
+    container_name: kaspa_db
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432/tcp"
+    volumes:
+      - kaspa_db:/var/lib/postgresql/data/
+
+volumes:
+  kaspa_db:

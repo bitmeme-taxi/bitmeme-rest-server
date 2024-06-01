@@ -38,14 +38,14 @@ class PreviousOutpointLookupMode(str, Enum):
     full = "full"
 
 
-@app.get("/addresses/{gorAddress}/transactions",
+@app.get("/addresses/{btmAddress}/transactions",
          response_model=TransactionForAddressResponse,
          response_model_exclude_unset=True,
          tags=["BTM addresses"],
          deprecated=True)
 @sql_db_only
 async def get_transactions_for_address(
-        gorAddress: str = Path(
+        btmAddress: str = Path(
             description="BTM address as string e.g. "
                         "btm:qp3gdpw70htp934mmp4fm54sewd23hqjxxshvjpqykw96hlk3nxt5qvgjfpm7",
             regex="^btm\:[a-z0-9]{61,63}$")):
@@ -67,10 +67,10 @@ async def get_transactions_for_address(
             FROM transactions
 			LEFT JOIN transactions_outputs ON transactions.transaction_id = transactions_outputs.transaction_id
 			LEFT JOIN transactions_inputs ON transactions_inputs.previous_outpoint_hash = transactions.transaction_id AND transactions_inputs.previous_outpoint_index = transactions_outputs.index
-            WHERE "script_public_key_address" = :gorAddress
+            WHERE "script_public_key_address" = :btmAddress
 			ORDER by transactions.block_time DESC
 			LIMIT 500"""),
-                                     {'gorAddress': gorAddress})
+                                     {'btmAddress': btmAddress})
 
         resp = resp.all()
 
@@ -84,13 +84,13 @@ async def get_transactions_for_address(
     }
 
 
-@app.get("/addresses/{gorAddress}/full-transactions",
+@app.get("/addresses/{btmAddress}/full-transactions",
          response_model=List[TxModel],
          response_model_exclude_unset=True,
          tags=["BTM addresses"])
 @sql_db_only
 async def get_full_transactions_for_address(
-        gorAddress: str = Path(
+        btmAddress: str = Path(
             description="BTN address as string e.g. "
                         "btm:qp3gdpw70htp934mmp4fm54sewd23hqjxxshvjpqykw96hlk3nxt5qvgjfpm7",
             regex="^btm\:[a-z0-9]{61,63}$"),
@@ -116,7 +116,7 @@ async def get_full_transactions_for_address(
         # Doing it this way as opposed to adding it directly in the IN clause
         # so I can re-use the same result in tx_list, TxInput and TxOutput
         tx_within_limit_offset = await s.execute(select(TxAddrMapping.transaction_id)
-                                                 .filter(TxAddrMapping.address == gorAddress)
+                                                 .filter(TxAddrMapping.address == btmAddress)
                                                  .limit(limit)
                                                  .offset(offset)
                                                  .order_by(TxAddrMapping.block_time.desc())
@@ -129,12 +129,12 @@ async def get_full_transactions_for_address(
                                          resolve_previous_outpoints)
 
 
-@app.get("/addresses/{gorAddress}/transactions-count",
+@app.get("/addresses/{btmAddress}/transactions-count",
          response_model=TransactionCount,
          tags=["BTM addresses"])
 @sql_db_only
 async def get_transaction_count_for_address(
-        gorAddress: str = Path(
+        btmAddress: str = Path(
             description="BTM address as string e.g. "
                         "btm:qp3gdpw70htp934mmp4fm54sewd23hqjxxshvjpqykw96hlk3nxt5qvgjfpm7",
             regex="^btm\:[a-z0-9]{61,63}$")
@@ -144,7 +144,7 @@ async def get_transaction_count_for_address(
     """
 
     async with async_session() as s:
-        count_query = select(func.count()).filter(TxAddrMapping.address == gorAddress)
+        count_query = select(func.count()).filter(TxAddrMapping.address == btmAddress)
 
         tx_count = await s.execute(count_query)
 

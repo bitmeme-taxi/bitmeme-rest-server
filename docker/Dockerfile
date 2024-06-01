@@ -4,7 +4,7 @@ ARG REPO_DIR
 
 EXPOSE 8000
 
-ENV KASPAD_HOST_1=bitmeme.world:26110
+ENV KASPAD_HOST_1=bitmeme.world:36110
 ARG version
 ENV VERSION=$version
 
